@@ -1,0 +1,142 @@
+<SettingsScreen>
+    name: "settings"
+    md_bg_color: 0.12, 0.12, 0.14, 1
+
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: "8dp"
+        padding: "8dp"
+
+        MDTopAppBar:
+            title: "Settings"
+            md_bg_color: 0.08, 0.08, 0.10, 1
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["arrow-left", lambda x: app.switch_screen("home")]]
+
+        ScrollView:
+            # ===== Mobile B: Server Settings =====
+            MDBoxLayout:
+                id: server_settings_box
+                orientation: "vertical"
+                spacing: "16dp"
+                padding: "24dp"
+                size_hint_y: None
+                height: "700dp"
+                opacity: 1
+                disabled: False
+
+                MDLabel:
+                    text: "Server Configuration"
+                    font_style: "H5"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+
+                MDLabel:
+                    text: "Storage Allocation"
+                    font_style: "Subtitle1"
+                    theme_text_color: "Custom"
+                    text_color: 0.8, 0.8, 0.8, 1
+
+                MDLabel:
+                    id: storage_value_label
+                    text: "1024 MB (1 GB)"
+                    font_style: "H4"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 0.3, 0.7, 0.3, 1
+                    halign: "center"
+
+                MDSlider:
+                    id: storage_slider
+                    min: 128
+                    max: 32768
+                    value: 1024
+                    hint: True
+                    on_value: root.on_storage_slider_value(*args)
+
+                MDRectangleFlatButton:
+                    text: "Apply Allocation"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.6
+                    line_color: 0.3, 0.7, 0.3, 1
+                    text_color: 0.3, 0.7, 0.3, 1
+                    on_release: root.apply_storage_allocation()
+
+                MDLabel:
+                    text: "Server Toggle"
+                    font_style: "Subtitle1"
+                    theme_text_color: "Custom"
+                    text_color: 0.8, 0.8, 0.8, 1
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    spacing: "8dp"
+                    size_hint_y: None
+                    height: "48dp"
+
+                    MDLabel:
+                        text: "Start / Stop File Server"
+                        font_style: "Body1"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        size_hint_x: 0.7
+
+                    MDSwitch:
+                        size_hint_x: 0.3
+                        on_active: root.toggle_server(*args)
+
+                MDLabel:
+                    id: server_toggle_status
+                    text: "Server is STOPPED"
+                    font_style: "Body2"
+                    theme_text_color: "Custom"
+                    text_color: 0.7, 0.0, 0.0, 1
+
+            # ===== Mobile A: Client Settings =====
+            MDBoxLayout:
+                id: client_settings_box
+                orientation: "vertical"
+                spacing: "16dp"
+                padding: "24dp"
+                size_hint_y: None
+                height: "400dp"
+                opacity: 0
+                disabled: True
+
+                MDLabel:
+                    text: "Client Settings"
+                    font_style: "H5"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+
+                MDLabel:
+                    id: paired_info_label
+                    text: "Loading paired devices..."
+                    font_style: "Body1"
+                    theme_text_color: "Custom"
+                    text_color: 0.6, 0.6, 0.6, 1
+
+                MDBoxLayout:
+                    id: paired_devices_list
+                    orientation: "vertical"
+                    spacing: "8dp"
+                    size_hint_y: None
+                    height: "200dp"
+
+                MDRectangleFlatButton:
+                    text: "Pair New Device"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.6
+                    line_color: 0.3, 0.5, 0.9, 1
+                    text_color: 0.3, 0.5, 0.9, 1
+                    on_release: root.navigate_to_pairing()
+
+                MDRectangleFlatButton:
+                    text: "Go to File Manager"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.6
+                    line_color: 0.3, 0.7, 0.3, 1
+                    text_color: 0.3, 0.7, 0.3, 1
+                    on_release: root.navigate_to_home()

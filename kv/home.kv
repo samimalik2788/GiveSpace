@@ -1,0 +1,156 @@
+<HomeScreen>
+    name: "home"
+    md_bg_color: 0.12, 0.12, 0.14, 1
+
+    # ===== Mobile A: File Manager =====
+    MDBoxLayout:
+        id: file_manager_box
+        orientation: "vertical"
+        opacity: 1
+        disabled: False
+
+        MDTopAppBar:
+            id: file_toolbar
+            title: "Give Space — /"
+            md_bg_color: 0.08, 0.08, 0.10, 1
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["cog", lambda x: app.switch_screen("settings")]]
+            right_action_items: [["cloud-upload", lambda x: root.upload_file_dialog()]]
+
+        # Memory / Storage Usage Bar
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: 0.08
+            padding: "16dp", "4dp"
+            spacing: "8dp"
+
+            MDLabel:
+                id: memory_used
+                text: "Used: 0 B"
+                font_style: "Caption"
+                theme_text_color: "Custom"
+                text_color: 0.8, 0.8, 0.8, 1
+                size_hint_x: 0.4
+
+            MDLabel:
+                id: memory_available
+                text: "Free: 0 B"
+                font_style: "Caption"
+                theme_text_color: "Custom"
+                text_color: 0.5, 0.5, 0.5, 1
+                size_hint_x: 0.4
+
+            # Hide/Unhide Toggle
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_x: 0.2
+                spacing: "4dp"
+
+                MDLabel:
+                    id: hide_status
+                    text: "👁️ Visible"
+                    font_style: "Caption"
+                    theme_text_color: "Custom"
+                    text_color: 0.5, 0.5, 0.5, 1
+                    size_hint_x: 0.6
+
+                MDSwitch:
+                    size_hint_x: 0.4
+                    on_active: root.toggle_hide_mode(*args)
+
+        # File List
+        ScrollView:
+            size_hint_y: 0.84
+
+            MDList:
+                id: file_list
+
+    # ===== Mobile B: Server Dashboard =====
+    MDBoxLayout:
+        id: dashboard_box
+        orientation: "vertical"
+        opacity: 0
+        disabled: True
+
+        MDTopAppBar:
+            title: "Give Space — Server"
+            md_bg_color: 0.08, 0.08, 0.10, 1
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["cog", lambda x: app.switch_screen("settings")]]
+
+        MDBoxLayout:
+            orientation: "vertical"
+            spacing: "24dp"
+            padding: "32dp"
+            size_hint_y: 0.9
+
+            # Server Status
+            MDCard:
+                orientation: "vertical"
+                size_hint_y: 0.3
+                padding: "16dp"
+                md_bg_color: 0.15, 0.15, 0.17, 1
+                radius: 12
+
+                MDLabel:
+                    id: server_status_label
+                    text: "Server: Stopped"
+                    font_style: "H5"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+
+                MDLabel:
+                    id: server_port_label
+                    text: "Port: ----"
+                    font_style: "Body1"
+                    theme_text_color: "Custom"
+                    text_color: 0.6, 0.6, 0.6, 1
+
+            # Memory Display (Styled Typography)
+            MDCard:
+                orientation: "vertical"
+                size_hint_y: 0.4
+                padding: "16dp"
+                md_bg_color: 0.15, 0.15, 0.17, 1
+                radius: 12
+
+                MDLabel:
+                    id: memory_title
+                    text: "Storage Allocation"
+                    font_style: "Subtitle1"
+                    bold: True
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    padding: "0dp", "8dp"
+
+                MDLabel:
+                    id: allocated_label
+                    text: "Allocated: --"
+                    font_style: "Body1"
+                    theme_text_color: "Custom"
+                    text_color: 0.3, 0.7, 0.3, 1
+                    font_size: "18sp"
+
+                MDLabel:
+                    id: used_label
+                    text: "Used: --"
+                    font_style: "Body1"
+                    theme_text_color: "Custom"
+                    text_color: 0.9, 0.7, 0.2, 1
+                    font_size: "18sp"
+
+                MDLabel:
+                    id: available_label
+                    text: "Available: --"
+                    font_style: "Body1"
+                    theme_text_color: "Custom"
+                    text_color: 0.3, 0.5, 0.9, 1
+                    font_size: "18sp"
+
+            MDLabel:
+                text: "Configure storage and start server in Settings"
+                halign: "center"
+                font_style: "Body2"
+                theme_text_color: "Custom"
+                text_color: 0.5, 0.5, 0.5, 1

@@ -1,0 +1,132 @@
+<PairingScreen>
+    name: "pairing"
+    md_bg_color: 0.12, 0.12, 0.14, 1
+
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: "16dp"
+        padding: "24dp"
+
+        MDTopAppBar:
+            title: "Pairing"
+            md_bg_color: 0.12, 0.12, 0.14, 1
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["arrow-left", lambda x: app.switch_screen("role")]]
+
+        # ===== Mobile A (Client) UI =====
+        MDBoxLayout:
+            id: client_box
+            orientation: "vertical"
+            spacing: "16dp"
+            size_hint_y: 0.8
+            opacity: 0
+            disabled: True
+
+            MDLabel:
+                text: "Connect to Mobile B"
+                halign: "center"
+                font_style: "H5"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+            MDLabel:
+                text: "Enter the 4-digit code and IP shown on Mobile B"
+                halign: "center"
+                font_style: "Body2"
+                theme_text_color: "Custom"
+                text_color: 0.6, 0.6, 0.6, 1
+
+            MDTextField:
+                id: ip_input
+                hint_text: "Server IP Address (e.g., 192.168.1.5)"
+                mode: "rectangle"
+                max_text_length: 15
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.8
+
+            MDTextField:
+                id: code_input
+                hint_text: "4-Digit Code"
+                mode: "rectangle"
+                max_text_length: 4
+                input_filter: "int"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.5
+
+            MDRectangleFlatButton:
+                text: "Connect"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.5
+                line_color: 0.3, 0.7, 0.3, 1
+                text_color: 0.3, 0.7, 0.3, 1
+                on_release: root.submit_pairing_code()
+
+        # ===== Mobile B (Server) UI =====
+        MDBoxLayout:
+            id: server_box
+            orientation: "vertical"
+            spacing: "16dp"
+            size_hint_y: 0.8
+            opacity: 0
+            disabled: True
+
+            MDLabel:
+                text: "Share Your Device"
+                halign: "center"
+                font_style: "H5"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+            MDLabel:
+                text: "Pairing Code"
+                halign: "center"
+                font_style: "Caption"
+                theme_text_color: "Custom"
+                text_color: 0.6, 0.6, 0.6, 1
+
+            MDLabel:
+                id: server_code_label
+                text: "----"
+                halign: "center"
+                font_style: "H1"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: 0.3, 0.7, 0.3, 1
+                font_size: "64sp"
+
+            MDLabel:
+                id: server_ip_label
+                text: "Your IP: ---.---.---.---"
+                halign: "center"
+                font_style: "Body1"
+                theme_text_color: "Custom"
+                text_color: 0.8, 0.8, 0.8, 1
+
+            MDLabel:
+                text: "Enter this code and IP on Mobile A to connect"
+                halign: "center"
+                font_style: "Body2"
+                theme_text_color: "Custom"
+                text_color: 0.6, 0.6, 0.6, 1
+                padding_y: "16dp"
+
+            MDRectangleFlatButton:
+                text: "Generate New Code"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.5
+                line_color: 0.3, 0.5, 0.9, 1
+                text_color: 0.3, 0.5, 0.9, 1
+                on_release: root.regenerate_code()
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: 0.1
+            pos_hint: {"center_x": 0.5}
+
+            MDFlatButton:
+                text: "Skip (Testing)"
+                theme_text_color: "Custom"
+                text_color: 0.5, 0.5, 0.5, 1
+                on_release: root.skip_pairing()
