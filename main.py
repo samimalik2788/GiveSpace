@@ -2,11 +2,9 @@
 Give Space — Main Entry Point
 Mobile application that allows one device (Mobile A) to request and utilize
 the storage space of another device (Mobile B) over a network.
-
 Usage:
     python main.py          # Run the app
 """
-
 import os
 import sys
 import logging
@@ -29,7 +27,6 @@ logging.getLogger("kivy.factory").setLevel(logging.WARNING)
 
 from src.app import GiveSpaceApp
 
-
 def main():
     """Application entry point."""
     app = GiveSpaceApp()
@@ -40,7 +37,6 @@ def main():
     except Exception as e:
         logging.exception("Application crashed: %s", e)
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()
