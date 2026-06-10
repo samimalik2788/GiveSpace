@@ -53,16 +53,30 @@ jobs:
         run: |
           pip install buildozer cython
 
-      - name: Accept Android licenses
+      - name: Setup Android SDK and licenses
         run: |
-          mkdir -p ~/.android
-          echo "count=0" > ~/.android/repositories.cfg
-          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-          echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-          echo -e "\n33b6937b7c8e3bb5a63a3dd908f9f98f5d8ad11d" > ~/.buildozer/android/platform/android-sdk/licenses/android-googletv-license
-          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd00f7310d622a71f0b5cd7b1f9a3db2925e4a453\ne9acab5b5fbb560a72cfaecce8946896ff6aab9d" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-arm-dbt-license
-          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/google-gdk-license
+          export ANDROID_SDK_ROOT=$HOME/.buildozer/android/platform/android-sdk
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+
+          # Download cmdline-tools
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -q commandlinetools-linux-11076708_latest.zip -d $ANDROID_SDK_ROOT/cmdline-tools
+          mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+
+          # Create old tools/bin path for buildozer compatibility
+          mkdir -p $ANDROID_SDK_ROOT/tools/bin
+          ln -s $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager $ANDROID_SDK_ROOT/tools/bin/sdkmanager
+
+          # Accept all licenses
+          mkdir -p $ANDROID_SDK_ROOT/licenses
+          echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_SDK_ROOT/licenses/android-sdk-license
+          echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e\n84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_SDK_ROOT/licenses/android-sdk-preview-license
+          echo -e "\n33b6937b7c8e3bb5a63a3dd908f9f98f5d8ad11d" > $ANDROID_SDK_ROOT/licenses/android-googletv-license
+          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_SDK_ROOT/licenses/android-sdk-arm-dbt-license
+          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_SDK_ROOT/licenses/google-gdk-license
+
+          # Install build tools
+          yes | $ANDROID_SDK_ROOT/tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;34.0.0" "platforms;android-34" "platform-tools"
 
       - name: Build APK
         run: |
