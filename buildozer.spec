@@ -7,6 +7,8 @@ Deploy command: buildozer android debug deploy run
 
 [app]
 
+version = 1.0.0
+
 # (str) Title of your application
 title = Give Space
 
